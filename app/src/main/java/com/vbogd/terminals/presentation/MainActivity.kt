@@ -1,7 +1,8 @@
-package com.vbogd.terminals
+package com.vbogd.terminals.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.vbogd.terminals.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

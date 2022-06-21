@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Terminals</string>
+
+    <string name="direction_button_save">Сохранить</string>
+    <string name="direction_from_title">Откуда:</string>
+    <string name="direction_to_title">Куда:</string>
+
+    <string name="terminal_from_title">Откуда</string>
+    <string name="terminal_to_title">Куда</string>
+    <string name="terminal_item_map">Месторасположение терминала на карте</string>
+    <string name="terminal_item_name">Название терминала:</string>
+    <string name="terminal_item_address">Адрес терминала:</string>
+    <string name="terminal_item_workhours">График работы:</string>
+    <string name="terminal_item_distance">Удаленность от пользователя:</string>
+
+
 </resources>
