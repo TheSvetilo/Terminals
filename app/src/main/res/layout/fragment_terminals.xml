@@ -1,40 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/orange"
-        app:tabSelectedTextColor="@color/orange">
+    <data>
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabTerminalFrom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/terminal_from_title" />
+        <variable
+            name="viewModel"
+            type="com.vbogd.terminals.presentation.screen.terminals.TerminalsViewModel" />
+    </data>
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabTerminalTo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/terminal_to_title" />
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/terminalList"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey"
-        android:clipToPadding="true"
-        android:paddingVertical="2dp"
-        tools:itemCount="4"
-        tools:listitem="@layout/list_item_terminal" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/orange"
+            app:tabSelectedTextColor="@color/orange">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabTerminalFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/terminal_from_title" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabTerminalTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/terminal_to_title" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/terminalList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey"
+            android:clipToPadding="true"
+            android:paddingVertical="2dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:listItem="@{ viewModel.terminalList }"
+            tools:itemCount="4"
+            tools:listitem="@layout/list_item_terminal" />
+
+    </LinearLayout>
+</layout>

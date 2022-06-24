@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/directionFragment">
+
+    <fragment
+        android:id="@+id/directionFragment"
+        android:name="com.vbogd.terminals.presentation.screen.direction.DirectionFragment"
+        android:label="DirectionFragment"
+        tools:layout="@layout/fragment_direction">
+        <action
+            android:id="@+id/show_terminals"
+            app:destination="@id/terminalsFragment" />
+        <argument
+            android:name="orderId"
+            app:argType="string" />
+        <argument
+            android:name="orderDirectionId"
+            app:argType="integer" />
+        <argument
+            android:name="terminalId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/terminalsFragment"
+        android:name="com.vbogd.terminals.presentation.screen.terminals.TerminalsFragment"
+        android:label="TerminalsFragment"
+        tools:layout="@layout/fragment_terminals">
+        <action
+            android:id="@+id/send_chosen_terminal_id"
+            app:destination="@id/directionFragment" />
+        <argument
+            android:name="orderId"
+            app:argType="string" />
+        <argument
+            android:name="orderDirectionId"
+            app:argType="integer" />
+    </fragment>
+</navigation>
