@@ -4,6 +4,6 @@ import com.vbogd.terminals.domain.model.Order
 
 interface OrderRepository {
 
-    fun getOrder(): Order
+    fun getOrders(): List<Order>
 
 }

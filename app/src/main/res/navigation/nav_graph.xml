@@ -15,13 +15,18 @@
             app:destination="@id/terminalsFragment" />
         <argument
             android:name="orderId"
-            app:argType="string" />
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="orderDirectionId"
+            android:defaultValue="0"
             app:argType="integer" />
         <argument
             android:name="terminalId"
-            app:argType="string" />
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/terminalsFragment"

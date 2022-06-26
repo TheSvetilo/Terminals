@@ -5,16 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.vbogd.terminals.R
+import androidx.navigation.fragment.navArgs
 import com.vbogd.terminals.databinding.FragmentDirectionBinding
 
 class DirectionFragment : Fragment() {
 
-    private val viewModel: DirectionViewModel by viewModels()
+    private val viewModel by lazy {
+        ViewModelProvider(
+            this,
+            DirectionViewModelFactory()
+        ).get(DirectionViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +29,13 @@ class DirectionFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+        val orderId = DirectionFragmentArgs.fromBundle(requireArguments()).orderId
+        val terminalId = DirectionFragmentArgs.fromBundle(requireArguments()).terminalId
+        val direction = DirectionFragmentArgs.fromBundle(requireArguments()).orderDirectionId
+        if (!orderId.isNullOrEmpty() && !terminalId.isNullOrEmpty()) {
+            viewModel.setDirection(orderId, direction, terminalId)
+        }
 
         binding.directionFrom.setOnClickListener {
             this.findNavController().navigate(

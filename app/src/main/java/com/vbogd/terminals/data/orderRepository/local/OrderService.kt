@@ -6,18 +6,31 @@ import com.vbogd.terminals.domain.model.Terminal
 
 class OrderService : OrderRepository {
 
-    var orderList = emptyList<Order>()
+    var orderList = listOf<Order>()
+    var order: Order? = null
 
     init {
-        getOrder()
+        order = getOrderById()
+        orderList = getOrders()
     }
 
-    override fun getOrder(): Order {
+    override fun getOrders(): List<Order> {
+        return listOf(
+            Order(
+                id = "1",
+                terminalFrom = null,
+                terminalTo = null
+            )
+        )
+    }
+
+    fun getOrderById(): Order {
         return Order(
             id = "1",
             terminalFrom = null,
             terminalTo = null
         )
+
     }
 
     fun fillOrder(): Order {

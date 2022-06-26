@@ -5,28 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.vbogd.terminals.R
 import com.vbogd.terminals.databinding.FragmentTerminalsBinding
 import com.vbogd.terminals.domain.model.Direction
-import com.vbogd.terminals.presentation.screen.direction.DirectionViewModel
 
 class TerminalsFragment : Fragment() {
 
     private val viewModel by lazy {
-        val currentOrderId = TerminalsFragmentArgs.fromBundle(requireArguments()).orderId
-        val orderDirectionTab =
-            TerminalsFragmentArgs.fromBundle(requireArguments()).orderDirectionId
-
         ViewModelProvider(
             this,
-            TerminalsViewModelFactory(
-                currentOrderId,
-                orderDirectionTab
-            )
+            TerminalsViewModelFactory()
         ).get(TerminalsViewModel::class.java)
     }
 
@@ -38,8 +29,23 @@ class TerminalsFragment : Fragment() {
         val binding = FragmentTerminalsBinding.inflate(inflater)
 
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.terminalList.adapter = TerminalsAdapter()
         binding.viewModel = viewModel
+        binding.terminalList.adapter = TerminalsAdapter(OnClickListener { terminal ->
+            this.findNavController().navigate(
+                TerminalsFragmentDirections.sendChosenTerminalId(
+                    orderId = viewModel.currentOrderId.toString(),
+                    orderDirectionId = binding.tabs.selectedTabPosition,
+                    terminalId = terminal.id
+                )
+            )
+        })
+
+        val currentOrderId = TerminalsFragmentArgs.fromBundle(requireArguments()).orderId
+        val orderDirectionTab =
+            TerminalsFragmentArgs.fromBundle(requireArguments()).orderDirectionId
+        if (currentOrderId.isNotEmpty()) {
+            viewModel.getTerminalsByDirection(orderDirectionTab)
+        }
 
         viewModel.orderDirection.observe(viewLifecycleOwner) {
             binding.tabs.getTabAt(it)!!.select()
@@ -48,8 +54,8 @@ class TerminalsFragment : Fragment() {
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab!!.id) {
-                    R.id.tabTerminalFrom -> viewModel.getTerminalsByDirection(Direction.FROM)
-                    R.id.tabTerminalTo -> viewModel.getTerminalsByDirection(Direction.TO)
+                    R.id.tabTerminalFrom -> viewModel.getTerminalsByDirection(0)
+                    R.id.tabTerminalTo -> viewModel.getTerminalsByDirection(1)
                 }
             }
 

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vbogd.terminals.databinding.ListItemTerminalBinding
 import com.vbogd.terminals.domain.model.Terminal
 
-class TerminalsAdapter :
+class TerminalsAdapter(private val clickListener: OnClickListener) :
     ListAdapter<Terminal, TerminalsAdapter.TerminalViewHolder>(DiffCallback()) {
 
     class TerminalViewHolder(private val binding: ListItemTerminalBinding) :
@@ -31,6 +31,9 @@ class TerminalsAdapter :
 
     override fun onBindViewHolder(holder: TerminalViewHolder, position: Int) {
         val terminal = getItem(position)
+        holder.itemView.setOnClickListener {
+            clickListener.onClick(terminal)
+        }
         holder.bind(terminal)
     }
 
@@ -44,4 +47,8 @@ class DiffCallback : DiffUtil.ItemCallback<Terminal>() {
     override fun areContentsTheSame(oldItem: Terminal, newItem: Terminal): Boolean {
         return oldItem.id == newItem.id
     }
+}
+
+class OnClickListener(val clickListener: (terminal: Terminal) -> Unit) {
+    fun onClick(terminal: Terminal) = clickListener(terminal)
 }

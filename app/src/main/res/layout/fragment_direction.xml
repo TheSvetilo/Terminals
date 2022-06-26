@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:enabled="@{ viewModel.isOrderFilled ? true : false }"
+            android:enabled="@{ viewModel.isOrderCompleted ? true : false }"
             android:text="@string/direction_button_save"
             android:textColor="@color/orange" />
 
