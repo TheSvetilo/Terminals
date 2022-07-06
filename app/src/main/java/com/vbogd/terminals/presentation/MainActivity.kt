@@ -3,6 +3,7 @@ package com.vbogd.terminals.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.vbogd.terminals.R
 import com.vbogd.terminals.presentation.screen.direction.DirectionFragment
 
@@ -12,8 +13,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-        val navController = navHost.navController
+//        val navHost =
+//            supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+//        val navController = navHost.navController
+
     }
 }

@@ -4,14 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vbogd.terminals.data.orderRepository.local.OrderService
-import com.vbogd.terminals.data.terminalRepository.local.TerminalService
-import com.vbogd.terminals.domain.model.Direction
-import com.vbogd.terminals.domain.model.Order
 import com.vbogd.terminals.domain.model.Terminal
+import com.vbogd.terminals.domain.repository.TerminalsRepository
+import javax.inject.Inject
 
 
-class TerminalsViewModel : ViewModel() {
+class TerminalsViewModel @Inject constructor(
+    terminalsRepository: TerminalsRepository
+) : ViewModel() {
 
     private val _currentOrderId = MutableLiveData<String>()
     val currentOrderId: LiveData<String> = _currentOrderId
@@ -25,17 +25,15 @@ class TerminalsViewModel : ViewModel() {
     private val _terminalsList = MutableLiveData<List<Terminal>>()
     val terminalList: LiveData<List<Terminal>> = _terminalsList
 
-    private val terminalService = TerminalService()
-    private val orderService = OrderService()
-
     init {
-        _currentOrderId.value = orderService.order!!.id
-        _terminalsList.value = terminalService.getTerminals()
-        Log.d("TAG", _currentOrderId.value.toString())
+        _terminalsList.value = terminalsRepository.getTerminals()
+        Log.d("TAG", _terminalsList.value.toString())
+//        _currentOrderId.value = terminalRepository.getTerminalById("1")
     }
 
     fun getTerminalsByDirection(direction: Int) {
         _orderDirection.value = direction
+//        terminalRepository.getTerminals()
     }
 
 }

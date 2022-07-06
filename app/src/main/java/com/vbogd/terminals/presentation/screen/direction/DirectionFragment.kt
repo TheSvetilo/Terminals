@@ -1,5 +1,6 @@
 package com.vbogd.terminals.presentation.screen.direction
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,15 +10,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.vbogd.terminals.App
 import com.vbogd.terminals.databinding.FragmentDirectionBinding
+import javax.inject.Inject
 
 class DirectionFragment : Fragment() {
 
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            DirectionViewModelFactory()
-        ).get(DirectionViewModel::class.java)
+    @Inject
+    lateinit var vmFactory: DirectionViewModelFactory
+    lateinit var viewModel: DirectionViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as App).appComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -26,6 +31,9 @@ class DirectionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentDirectionBinding.inflate(inflater)
+
+        viewModel = ViewModelProvider(this, vmFactory)
+            .get(DirectionViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

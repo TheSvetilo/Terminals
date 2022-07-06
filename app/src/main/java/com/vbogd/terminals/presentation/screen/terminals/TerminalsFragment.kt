@@ -1,5 +1,6 @@
 package com.vbogd.terminals.presentation.screen.terminals
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,17 +9,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
+import com.vbogd.terminals.App
 import com.vbogd.terminals.R
 import com.vbogd.terminals.databinding.FragmentTerminalsBinding
-import com.vbogd.terminals.domain.model.Direction
+import javax.inject.Inject
 
 class TerminalsFragment : Fragment() {
 
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            TerminalsViewModelFactory()
-        ).get(TerminalsViewModel::class.java)
+    @Inject
+    lateinit var vmFactory: TerminalsViewModelFactory
+    lateinit var viewModel: TerminalsViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as App).appComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -27,6 +31,9 @@ class TerminalsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentTerminalsBinding.inflate(inflater)
+
+        viewModel = ViewModelProvider(this, vmFactory)
+            .get(TerminalsViewModel::class.java)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

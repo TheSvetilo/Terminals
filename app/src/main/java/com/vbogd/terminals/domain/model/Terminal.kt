@@ -11,6 +11,7 @@ data class Terminal(
 )
 
 enum class Direction {
+    DEFAULT,
     FROM,
     TO
 }
