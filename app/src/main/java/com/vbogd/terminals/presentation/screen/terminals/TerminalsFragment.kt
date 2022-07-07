@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.vbogd.terminals.App
-import com.vbogd.terminals.R
 import com.vbogd.terminals.databinding.FragmentTerminalsBinding
+import com.vbogd.terminals.domain.model.Direction
 import javax.inject.Inject
 
 class TerminalsFragment : Fragment() {
@@ -51,18 +51,20 @@ class TerminalsFragment : Fragment() {
         val orderDirectionTab =
             TerminalsFragmentArgs.fromBundle(requireArguments()).orderDirectionId
         if (currentOrderId.isNotEmpty()) {
-            viewModel.getTerminalsByDirection(orderDirectionTab)
-        }
-
-        viewModel.orderDirection.observe(viewLifecycleOwner) {
-            binding.tabs.getTabAt(it)!!.select()
+            binding.tabs.getTabAt(orderDirectionTab)!!.select()
+            val direction = when (orderDirectionTab) {
+                0 -> Direction.FROM
+                1 -> Direction.TO
+                else -> Direction.BOTH
+            }
+            viewModel.getTerminalsByDirection(direction)
         }
 
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab!!.id) {
-                    R.id.tabTerminalFrom -> viewModel.getTerminalsByDirection(0)
-                    R.id.tabTerminalTo -> viewModel.getTerminalsByDirection(1)
+                when (tab!!.position) {
+                    0 -> viewModel.getTerminalsByDirection(Direction.FROM)
+                    1 -> viewModel.getTerminalsByDirection(Direction.TO)
                 }
             }
 

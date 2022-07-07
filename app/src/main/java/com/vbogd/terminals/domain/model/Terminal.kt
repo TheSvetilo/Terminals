@@ -7,11 +7,12 @@ data class Terminal(
     val workHours: String,
     val distance: Double,
     val imageAddress: String,
-    val direction: Boolean
+    val direction: Direction
 )
 
 enum class Direction {
-    DEFAULT,
+    BOTH,
     FROM,
-    TO
+    TO,
+    DEFAULT
 }

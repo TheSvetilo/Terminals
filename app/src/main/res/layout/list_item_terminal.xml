@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/terminal_item_workhours"
+            android:text="@string/terminal_item_workHours"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,10 +73,10 @@
             android:id="@+id/terminalWorkHours"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{ terminal.workHours }"
             app:layout_constraintEnd_toEndOf="@id/barrierMap"
             app:layout_constraintStart_toStartOf="@id/terminalWorkHoursTitle"
             app:layout_constraintTop_toBottomOf="@id/terminalWorkHoursTitle"
+            app:workHours="@{ terminal }"
             tools:text="пн: 08:00-00:00; вт-пт: круглосуточно; сб: 00:00-20:00; вс: 09:00-20:00" />
 
         <androidx.constraintlayout.widget.Barrier

@@ -41,12 +41,16 @@ fun bindTerminalAddressToVisibility(view: TextView, orderDirection: Order) {
         if (orderDirection.terminalTo != null) orderDirection.terminalTo.address else view.context.getString(
             R.string.direction_no_address
         )
-//    view.visibility =
-//        if (orderDirection.terminalTo != null) View.VISIBLE else View.GONE
 }
 
 @BindingAdapter("listItem")
 fun bindRecyclerView(recyclerView: RecyclerView, terminals: List<Terminal>?) {
     val adapter = recyclerView.adapter as TerminalsAdapter
     adapter.submitList(terminals)
+}
+
+@BindingAdapter("workHours")
+fun bindWorkHours(textView: TextView, terminal: Terminal) {
+    textView.text =
+        terminal.workHours.ifEmpty { textView.context.getString(R.string.terminal_item_no_workHours) }
 }

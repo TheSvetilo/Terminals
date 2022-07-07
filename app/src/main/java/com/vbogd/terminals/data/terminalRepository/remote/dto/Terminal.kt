@@ -1,5 +1,7 @@
 package com.vbogd.terminals.data.terminalRepository.remote.dto
 
+import com.vbogd.terminals.domain.model.Direction
+
 data class Terminal(
     val address: String,
     val addressCode: AddressCode,
@@ -30,6 +32,12 @@ data class Terminal(
 )
 
 fun Terminal.toDomain(): com.vbogd.terminals.domain.model.Terminal {
+
+    val direction = if (default && giveoutCargo && receiveCargo) Direction.BOTH
+    else if (default && giveoutCargo) Direction.TO
+    else if (receiveCargo) Direction.FROM
+    else Direction.DEFAULT
+
     return com.vbogd.terminals.domain.model.Terminal(
         id = id,
         name = name,
@@ -37,6 +45,6 @@ fun Terminal.toDomain(): com.vbogd.terminals.domain.model.Terminal {
         workHours = calcSchedule.arrival,
         distance = 0.0,
         imageAddress = "",
-        direction = false
+        direction = direction
     )
 }
