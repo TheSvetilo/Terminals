@@ -46,7 +46,9 @@ fun bindTerminalAddressToVisibility(view: TextView, orderDirection: Order) {
 @BindingAdapter("listItem")
 fun bindRecyclerView(recyclerView: RecyclerView, terminals: List<Terminal>?) {
     val adapter = recyclerView.adapter as TerminalsAdapter
-    adapter.submitList(terminals)
+    adapter.submitList(terminals) {
+        recyclerView.scrollToPosition(0)
+    }
 }
 
 @BindingAdapter("workHours")

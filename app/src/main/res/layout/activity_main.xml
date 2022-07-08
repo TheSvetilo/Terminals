@@ -5,7 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/black"
+        android:theme="@style/Widget.AppCompat.ActionBar"
+        app:titleTextColor="@color/white" />
+
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
@@ -14,6 +22,6 @@
         app:navGraph="@navigation/nav_graph"
         tools:context=".presentation.MainActivity">
 
-    </fragment>
+    </androidx.fragment.app.FragmentContainerView>
 
 </FrameLayout>

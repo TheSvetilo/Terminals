@@ -13,10 +13,12 @@
         <import type="android.view.View" />
     </data>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -44,7 +46,9 @@
             android:layout_height="match_parent"
             android:background="@color/grey"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:focusableInTouchMode="true"
+            android:focusable="true">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/terminalList"

@@ -15,5 +15,11 @@
     <string name="terminal_item_workHours">График работы:</string>
     <string name="terminal_item_distance">Удаленность от пользователя:</string>
     <string name="terminal_item_no_workHours">нет данных</string>
+    <string name="menu_search_icon">Поиск терминала по названию</string>
+    <string name="menu_search_filter_icon">Выберете фильтр</string>
+    <string name="menu_order_drop_data">Сбросить данные</string>
+    <string name="menu_terminal_filter_sort_title">Сортировка</string>
+    <string name="menu_terminal_filter_sort_name">По названию</string>
+    <string name="menu_terminal_filter_sort_distance">По расстоянию</string>
 
 </resources>

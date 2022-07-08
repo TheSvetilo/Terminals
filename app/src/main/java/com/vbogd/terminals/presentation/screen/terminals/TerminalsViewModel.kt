@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.vbogd.terminals.domain.model.Direction
 import com.vbogd.terminals.domain.model.Terminal
 import com.vbogd.terminals.domain.repository.TerminalsRepository
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -31,9 +30,17 @@ class TerminalsViewModel @Inject constructor(
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
+    private val _filter = MutableLiveData<TerminalFilter>()
+    val filter: LiveData<TerminalFilter> = _filter
+
+    init {
+        _filter.value = TerminalFilter.DEFAULT
+    }
+
     fun getTerminalsByDirection(direction: Direction) {
 
         _dataLoading.value = true
+        _filter.value = TerminalFilter.DEFAULT
 
         terminalsRepository.getTerminalsByDirection(direction)
             .subscribeOn(Schedulers.io())
@@ -41,11 +48,23 @@ class TerminalsViewModel @Inject constructor(
             .subscribe({
                 _terminalsList.value = it
                 _dataLoading.value = false
-//                _orderDirection.value = if (direction == Direction.FROM) 0 else 1
             }, {
 
             })
 
     }
 
+    fun applyTerminalFilter(filter: TerminalFilter) {
+
+        _filter.value = filter
+
+        _terminalsList.value = _terminalsList.value?.sortedBy { it.name }
+    }
+
+}
+
+enum class TerminalFilter {
+    DEFAULT,
+    NAME,
+    DISTANCE
 }
