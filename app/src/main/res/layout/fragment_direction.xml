@@ -20,115 +20,133 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/directionFrom"
+        <LinearLayout
+            android:id="@+id/progressBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="36dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:layout_height="match_parent"
+            android:background="@color/grey"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{ viewModel.dataLoading ? View.GONE : View.VISIBLE }">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/directionFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:layout_marginHorizontal="36dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
-                <TextView
-                    android:id="@+id/fromTitle"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/direction_from_title"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/directionFromName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toEndOf="@id/fromTitle"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:orderTerminalNameFrom="@{ viewModel.currentOrder }"
-                    tools:text="Санкт-Петербург Парнас" />
+                    <TextView
+                        android:id="@+id/fromTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/direction_from_title"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/directionFromAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fromTitle"
-                    app:orderTerminalAddressFromVisibility="@{ viewModel.currentOrder }"
-                    tools:text="194292, Санкт-Петербург г, 1-й Верхний пер, дом № 12, Литера Б" />
+                    <TextView
+                        android:id="@+id/directionFromName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toEndOf="@id/fromTitle"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:orderTerminalNameFrom="@{ viewModel.currentOrder }"
+                        tools:text="Санкт-Петербург Парнас" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/directionFromAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fromTitle"
+                        app:orderTerminalAddressFromVisibility="@{ viewModel.currentOrder }"
+                        tools:text="194292, Санкт-Петербург г, 1-й Верхний пер, дом № 12, Литера Б" />
 
-        </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/directionTo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="36dp"
-            android:layout_marginTop="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            </androidx.cardview.widget.CardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/directionTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:layout_marginHorizontal="36dp"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
 
-                <TextView
-                    android:id="@+id/toTitle"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/direction_to_title"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/directionToName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toEndOf="@id/toTitle"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:orderTerminalNameTo="@{ viewModel.currentOrder }"
-                    tools:text="Санкт-Петербург Парнас" />
+                    <TextView
+                        android:id="@+id/toTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/direction_to_title"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/directionToAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/toTitle"
-                    app:orderTerminalAddressToVisibility="@{ viewModel.currentOrder }"
-                    tools:text="194292, Санкт-Петербург г, 1-й Верхний пер, дом № 12, Литера Б" />
+                    <TextView
+                        android:id="@+id/directionToName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toEndOf="@id/toTitle"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:orderTerminalNameTo="@{ viewModel.currentOrder }"
+                        tools:text="Санкт-Петербург Парнас" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/directionToAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/toTitle"
+                        app:orderTerminalAddressToVisibility="@{ viewModel.currentOrder }"
+                        tools:text="194292, Санкт-Петербург г, 1-й Верхний пер, дом № 12, Литера Б" />
 
-        </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/saveDirection"
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/saveDirection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:enabled="@{ viewModel.isOrderCompleted ? true : false }"
+                android:onClick="@{ () -> viewModel.saveOrder() }"
+                android:text="@string/direction_button_save"
+                android:textColor="@color/orange" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:enabled="@{ viewModel.isOrderCompleted ? true : false }"
-            android:text="@string/direction_button_save"
-            android:textColor="@color/orange" />
+            android:visibility="@{ viewModel.dataLoading ? View.VISIBLE : View.GONE }" />
 
     </LinearLayout>
 

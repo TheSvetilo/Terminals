@@ -11,5 +11,5 @@ data class TerminalEntity(
     val workHours: String,
     val distance: Double,
     val imageAddress: String,
-    val direction: Boolean
+    val direction: String
 )

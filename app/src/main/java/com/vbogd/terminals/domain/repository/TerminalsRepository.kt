@@ -8,13 +8,12 @@ import io.reactivex.Single
 
 interface TerminalsRepository {
 
+    fun getTerminals(): Single<List<Terminal>>
     fun getTerminalsByDirection(direction: Direction): Single<List<Terminal>>
-    fun getTerminalById(id: String): Single<Terminal?>
+    fun getTerminalById(terminalId: String): Single<Terminal?>
     fun searchTerminal(search: String): Observable<List<Terminal>>
     fun saveTerminal(terminal: Terminal): Completable
     fun saveAll(terminals: List<Terminal>): Completable
 
-    // temp
-    fun getTerminals(): Single<List<Terminal>>
 
 }

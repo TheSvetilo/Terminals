@@ -1,7 +1,9 @@
 package com.vbogd.terminals.data.terminalRepository
 
 import android.util.Log
+import com.vbogd.terminals.data.mappers.convertTerminalModelToEntity
 import com.vbogd.terminals.data.terminalRepository.local.TerminalLocalDataSource
+import com.vbogd.terminals.data.terminalRepository.local.entity.TerminalEntity
 import com.vbogd.terminals.data.terminalRepository.remote.TerminalRemoteDataSource
 import com.vbogd.terminals.data.terminalRepository.remote.dto.TerminalsDto
 import com.vbogd.terminals.data.terminalRepository.remote.dto.toDomain
@@ -23,29 +25,31 @@ class TerminalsRepositoryImpl @Inject constructor(
 
         return terminalRemoteDataSource.getTerminals()
             .subscribeOn(Schedulers.io())
-            .flatMap {
-                return@flatMap Single.just(fetchTerminalsFromDtoList(it))
+            .map {
+                fetchTerminalsFromDtoList(it)
             }
-
     }
 
     override fun getTerminalsByDirection(direction: Direction): Single<List<Terminal>> {
         return terminalRemoteDataSource.getTerminals()
             .subscribeOn(Schedulers.io())
-            .flatMap { terminalsDto ->
-                val terminals = fetchTerminalsFromDtoList(terminalsDto)
-                val result = when (direction) {
-                    Direction.FROM -> {
-                        terminals.filter { it.direction == Direction.FROM || it.direction == Direction.BOTH }
-                    }
-                    Direction.TO -> {
-                        terminals.filter { it.direction == Direction.TO || it.direction == Direction.BOTH }
-                    }
-                    else -> {
-                        terminals
-                    }
-                }
-                return@flatMap Single.just(result)
+//            .flatMap { terminalsDto ->
+//                val terminals = fetchTerminalsFromDtoList(terminalsDto)
+//                val result = when (direction) {
+//                    Direction.FROM -> {
+//                        terminals.filter { it.direction == Direction.FROM || it.direction == Direction.BOTH }
+//                    }
+//                    Direction.TO -> {
+//                        terminals.filter { it.direction == Direction.TO || it.direction == Direction.BOTH }
+//                    }
+//                    else -> {
+//                        terminals
+//                    }
+//                }
+//                return@flatMap Single.just(result)
+//            }
+            .map {
+                fetchTerminalsFromDtoList(it)
             }
     }
 
@@ -56,14 +60,27 @@ class TerminalsRepositoryImpl @Inject constructor(
                 terminals.add(terminal.toDomain())
             }
         }
-//        for (ter in terminals) {
-//            Log.d("TAG", "Name: ${ter.name}, direction: ${ter.direction}")
-//        }
+
         return terminals
     }
 
-    override fun getTerminalById(id: String): Single<Terminal?> {
-        TODO("Not yet implemented")
+    private fun fetchTerminalById(terminalsDto: TerminalsDto, terminalId: String): Terminal? {
+
+        var result: Terminal? = null
+        for (terminal in fetchTerminalsFromDtoList(terminalsDto)) {
+            if (terminal.id == terminalId) {
+                result = terminal
+            }
+        }
+        Log.d("TAG", "TerminalRepository: fetchTerminalById: $result")
+        return result
+
+    }
+
+    override fun getTerminalById(terminalId: String): Single<Terminal?> {
+        return terminalRemoteDataSource.getTerminals()
+            .subscribeOn(Schedulers.io())
+            .map { fetchTerminalById(it, terminalId) }
     }
 
     override fun searchTerminal(search: String): Observable<List<Terminal>> {
@@ -75,6 +92,11 @@ class TerminalsRepositoryImpl @Inject constructor(
     }
 
     override fun saveAll(terminals: List<Terminal>): Completable {
-        TODO("Not yet implemented")
+
+        val terminalEntityList = mutableListOf<TerminalEntity>()
+        for (terminal in terminals) {
+            terminalEntityList.add(convertTerminalModelToEntity(terminal))
+        }
+        return terminalLocalDataSource.saveTerminals(terminalEntityList)
     }
 }

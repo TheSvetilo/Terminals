@@ -13,10 +13,13 @@ fun convertOrderModelToEntity(order: Order): OrderEntity {
     )
 }
 
-fun convertOrderEntityToModel(orderEntity: OrderEntity): Order {
-    return Order(
-        id = orderEntity.id,
-        terminalFrom = null,
-        terminalTo = null
-    )
-}
+fun convertOrderEntityToModel(
+    orderEntity: OrderEntity,
+    terminalFrom: Terminal?,
+    terminalTo: Terminal?,
+) = Order(
+    id = orderEntity.id,
+    terminalFrom = terminalFrom,
+    terminalTo = terminalTo
+)
+

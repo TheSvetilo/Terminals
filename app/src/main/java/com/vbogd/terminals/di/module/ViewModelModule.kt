@@ -15,9 +15,10 @@ class ViewModelModule {
 
     @Provides
     fun bindDirectionViewModel(
-        orderManager: OrdersRepository
+        orderManager: OrdersRepository,
+        terminalsRepository: TerminalsRepository
     ): DirectionViewModelFactory {
-        return DirectionViewModelFactory(orderManager)
+        return DirectionViewModelFactory(orderManager, terminalsRepository)
     }
 
     @Provides

@@ -5,6 +5,7 @@ import com.vbogd.terminals.di.module.AppModule
 import com.vbogd.terminals.di.module.DatabaseModule
 import com.vbogd.terminals.di.module.NetworkModule
 import com.vbogd.terminals.di.module.ViewModelModule
+import com.vbogd.terminals.presentation.MainActivity
 import com.vbogd.terminals.presentation.screen.direction.DirectionFragment
 import com.vbogd.terminals.presentation.screen.terminals.TerminalsFragment
 import dagger.BindsInstance
@@ -30,4 +31,7 @@ interface AppComponent {
     // fragments
     fun inject(directionFragment: DirectionFragment)
     fun inject(terminalsFragment: TerminalsFragment)
+    
+    // activity
+    fun inject(mainActivity: MainActivity)
 }

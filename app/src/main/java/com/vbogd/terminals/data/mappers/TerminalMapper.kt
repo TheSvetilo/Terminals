@@ -14,19 +14,19 @@ import com.vbogd.terminals.domain.model.Terminal
 //        direction = terminalEntity.direction
 //    )
 //}
-//
-//fun convertTerminalModelToEntity(terminal: Terminal): TerminalEntity {
-//    return TerminalEntity(
-//        id = terminal.id,
-//        name = terminal.name,
-//        address = terminal.address,
-//        workHours = terminal.workHours,
-//        distance = terminal.distance,
-//        imageAddress = terminal.imageAddress,
-//        direction = terminal.direction
-//    )
-//}
-//
+
+fun convertTerminalModelToEntity(terminal: Terminal): TerminalEntity {
+    return TerminalEntity(
+        id = terminal.id,
+        name = terminal.name,
+        address = terminal.address,
+        workHours = terminal.workHours,
+        distance = terminal.distance,
+        imageAddress = terminal.imageAddress,
+        direction = terminal.direction.toString()
+    )
+}
+
 //fun convertTerminalDtoToModel(terminalDto: com.vbogd.terminals.data.terminalRepository.remote.dto.Terminal): Terminal {
 //    return Terminal(
 //        id = terminalDto.id,

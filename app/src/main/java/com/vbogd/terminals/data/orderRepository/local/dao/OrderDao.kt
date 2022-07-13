@@ -2,20 +2,22 @@ package com.vbogd.terminals.data.orderRepository.local.dao
 
 import androidx.room.*
 import com.vbogd.terminals.data.orderRepository.local.entity.OrderEntity
+import io.reactivex.Completable
+import io.reactivex.Single
 
 @Dao
 interface OrderDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun createOrder(order: OrderEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun createOrder(order: OrderEntity): Completable
 
-    @Query("SELECT * FROM orders WHERE id = :orderId")
-    fun getOrderById(orderId: String): OrderEntity?
+    @Query("SELECT * FROM orders WHERE :orderId LIKE id")
+    fun getOrderById(orderId: String): Single<OrderEntity?>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateOrder(order: OrderEntity)
+    fun updateOrder(order: OrderEntity): Completable
 
     @Delete
-    fun deleteOrder(order: OrderEntity)
+    fun deleteOrder(order: OrderEntity): Completable
 
 }
