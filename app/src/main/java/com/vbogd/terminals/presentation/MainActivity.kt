@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
     }
 
     private fun fillDatabase() {
@@ -48,32 +47,32 @@ class MainActivity : AppCompatActivity() {
                 Log.d("TAG", "Can't get terminals from WEB")
             })
         ordersRepository.createOrder(
-            Order(
-                id = "55",
-                terminalFrom = Terminal(
-                    id = "39",
-                    name = "",
-                    address = "",
-                    workHours = "",
-                    distance = 0.0,
-                    imageAddress = "",
-                    direction = Direction.BOTH
-                ),
-                terminalTo = Terminal(
-                    id = "15",
-                    name = "",
-                    address = "",
-                    workHours = "",
-                    distance = 0.0,
-                    imageAddress = "",
-                    direction = Direction.BOTH
-                )
-            )
 //            Order(
 //                id = "55",
-//                terminalFrom = null,
-//                terminalTo = null
+//                terminalFrom = Terminal(
+//                    id = "39",
+//                    name = "",
+//                    address = "",
+//                    workHours = "",
+//                    distance = 0.0,
+//                    imageAddress = "",
+//                    direction = Direction.BOTH
+//                ),
+//                terminalTo = Terminal(
+//                    id = "15",
+//                    name = "",
+//                    address = "",
+//                    workHours = "",
+//                    distance = 0.0,
+//                    imageAddress = "",
+//                    direction = Direction.BOTH
+//                )
 //            )
+            Order(
+                id = "55",
+                terminalFrom = null,
+                terminalTo = null
+            )
         )
             .subscribeOn(Schedulers.io())
             .subscribe({

@@ -42,7 +42,7 @@ class DirectionViewModel @Inject constructor(
                 _dataLoading.value = false
                 updateButtonState()
             }, {
-                Log.d("TAG", "Order from DATABASE doesn't exist")
+                Log.d("TAG", "Order from DATABASE doesn't exist: ${it.message}")
                 _dataLoading.value = false
             })
     }
@@ -57,8 +57,8 @@ class DirectionViewModel @Inject constructor(
             .subscribe({
                 Log.d("TAG", "Current BEFORE order is: ${_currentOrder.value}")
                 when (direction) {
-                    0 -> _currentOrder.value = _currentOrder.value?.copy(terminalFrom = it)
-                    1 -> _currentOrder.value = _currentOrder.value?.copy(terminalTo = it)
+                    0 -> _currentOrder.value = _currentOrder.value?.copy(terminalFrom = it.get())
+                    1 -> _currentOrder.value = _currentOrder.value?.copy(terminalTo = it.get())
                 }
                 updateButtonState()
                 _dataLoading.value = false

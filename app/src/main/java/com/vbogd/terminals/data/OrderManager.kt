@@ -5,12 +5,12 @@ import com.vbogd.terminals.data.mappers.convertOrderEntityToModel
 import com.vbogd.terminals.data.mappers.convertOrderModelToEntity
 import com.vbogd.terminals.data.orderRepository.local.OrderLocalDataSource
 import com.vbogd.terminals.domain.model.Order
-import com.vbogd.terminals.domain.model.Terminal
 import com.vbogd.terminals.domain.repository.OrdersRepository
 import com.vbogd.terminals.domain.repository.TerminalsRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 class OrderManager @Inject constructor(
@@ -25,41 +25,26 @@ class OrderManager @Inject constructor(
 
     override fun getOrderById(orderId: String): Single<Order?> {
 
-        var terminalFrom: Terminal? = null
-        var terminalTo: Terminal? = null
-
         return orderLocalDataSource.getOrderById(orderId)
             .subscribeOn(Schedulers.io())
-//            .flatMap { orderEntity ->
-//                orderEntity.terminalIdFrom?.let { terminalId ->
-//                    terminalsRepository.getTerminalById(terminalId)
-//                        .subscribeOn(Schedulers.io())
-//                        .subscribe({ terminal ->
-//                            terminalFrom = terminal
-//                        }, {})
-//                }
-//                orderEntity.terminalIdTo?.let {
-//                    terminalsRepository.getTerminalById(it)
-//                        .subscribeOn(Schedulers.io())
-//                        .subscribe({ terminal ->
-//                            terminalTo = terminal
-//                        }, {})
-//                }
-//                Single.just(convertOrderEntityToModel(orderEntity, terminalFrom, terminalTo))
             .flatMap { orderEntity ->
+                Log.d("TAG", "$orderEntity")
                 Single.zip(
+
                     orderEntity.terminalIdFrom?.let { it1 ->
-                        terminalsRepository.getTerminalById(
-                            it1
-                        )
-                    },
+                        terminalsRepository.getTerminalById(it1)
+                    } ?: Single.just(Optional.empty()),
+
                     orderEntity.terminalIdTo?.let { it1 ->
-                        terminalsRepository.getTerminalById(
-                            it1
-                        )
-                    }
+                        terminalsRepository.getTerminalById(it1)
+                    } ?: Single.just(Optional.empty())
+
                 ) { terminalFrom, terminalTo ->
-                    convertOrderEntityToModel(orderEntity, terminalFrom, terminalTo)
+                    convertOrderEntityToModel(
+                        orderEntity,
+                        terminalFrom.orElse(null),
+                        terminalTo.orElse(null)
+                    )
                 }
 
             }
@@ -71,3 +56,5 @@ class OrderManager @Inject constructor(
     }
 
 }
+
+// combine, merge, zip

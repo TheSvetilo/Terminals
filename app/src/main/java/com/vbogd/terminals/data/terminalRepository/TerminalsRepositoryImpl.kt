@@ -14,6 +14,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 class TerminalsRepositoryImpl @Inject constructor(
@@ -77,10 +78,10 @@ class TerminalsRepositoryImpl @Inject constructor(
 
     }
 
-    override fun getTerminalById(terminalId: String): Single<Terminal?> {
+    override fun getTerminalById(terminalId: String): Single<Optional<Terminal>> {
         return terminalRemoteDataSource.getTerminals()
             .subscribeOn(Schedulers.io())
-            .map { fetchTerminalById(it, terminalId) }
+            .map { Optional.ofNullable(fetchTerminalById(it, terminalId)) }
     }
 
     override fun searchTerminal(search: String): Observable<List<Terminal>> {

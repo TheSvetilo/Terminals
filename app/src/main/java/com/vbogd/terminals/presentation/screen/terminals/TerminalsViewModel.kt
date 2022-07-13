@@ -45,6 +45,19 @@ class TerminalsViewModel @Inject constructor(
         terminalsRepository.getTerminalsByDirection(direction)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .map { terminalList ->
+                when (direction) {
+                    Direction.FROM -> {
+                        terminalList.filter { it.direction == Direction.FROM || it.direction == Direction.BOTH }
+                    }
+                    Direction.TO -> {
+                        terminalList.filter { it.direction == Direction.TO || it.direction == Direction.BOTH }
+                    }
+                    else -> {
+                        terminalList
+                    }
+                }
+            }
             .subscribe({
                 _terminalsList.value = it
                 _dataLoading.value = false

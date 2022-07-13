@@ -3,7 +3,9 @@ package com.vbogd.terminals.presentation.screen.terminals
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -16,6 +18,9 @@ import com.vbogd.terminals.R
 import com.vbogd.terminals.databinding.FragmentTerminalsBinding
 import com.vbogd.terminals.domain.model.Direction
 import com.vbogd.terminals.presentation.MainActivity
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TerminalsFragment : Fragment() {
@@ -99,35 +104,60 @@ class TerminalsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.terminalMenuSearch -> {
+//
+//                val searchView = item as SearchView
+//
+//                Observable.create(ObservableOnSubscribe<String> { subscriber ->
+//                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//                        override fun onQueryTextSubmit(newText: String?): Boolean {
+//                            subscriber.onNext(newText!!)
+//                            return false
+//                        }
+//
+//                        override fun onQueryTextChange(newText: String?): Boolean {
+//                            subscriber.onNext(newText!!)
+//                            return false
+//                        }
+//
+//                    })
+//                })
+//                    .map { text -> text.trim() }
+//                    .debounce(300, TimeUnit.MILLISECONDS)
+//                    .distinct()
+//                    .filter { text -> text.isNotBlank() }
+//                    .subscribe { text ->
+//                        Log.d("SEARCH", "subscriber: $text")
+//                    }
 
                 true
             }
             R.id.terminalMenuFilter -> {
-                val dialog = BottomSheetDialog(requireActivity() as MainActivity)
-                val view = layoutInflater.inflate(R.layout.terminal_filter_dialog, null)
-
-                val nameSort = view.findViewById<TextView>(R.id.terminalFilterByName)
-                val distanceSort = view.findViewById<TextView>(R.id.terminalFilterByDistance)
-                nameSort.setOnClickListener {
-
-                    viewModel.applyTerminalFilter(TerminalFilter.NAME)
-                    Toast.makeText(requireContext(), "Name", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
-                distanceSort.setOnClickListener {
-                    viewModel.applyTerminalFilter(TerminalFilter.DISTANCE)
-                    Toast.makeText(requireContext(), "Distance", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
-
-                dialog.setCancelable(true)
-                dialog.setContentView(view)
-                dialog.show()
-
+                showFilterBottomSheet()
                 true
             }
             else -> true
         }
+    }
+
+    private fun showFilterBottomSheet() {
+        val dialog = BottomSheetDialog(requireActivity() as MainActivity)
+        val view = layoutInflater.inflate(R.layout.terminal_filter_dialog, null)
+
+        val nameSort = view.findViewById<TextView>(R.id.terminalFilterByName)
+        val distanceSort = view.findViewById<TextView>(R.id.terminalFilterByDistance)
+        nameSort.setOnClickListener {
+
+            viewModel.applyTerminalFilter(TerminalFilter.NAME)
+            dialog.dismiss()
+        }
+        distanceSort.setOnClickListener {
+            viewModel.applyTerminalFilter(TerminalFilter.DISTANCE)
+            dialog.dismiss()
+        }
+
+        dialog.setCancelable(true)
+        dialog.setContentView(view)
+        dialog.show()
     }
 
 }
