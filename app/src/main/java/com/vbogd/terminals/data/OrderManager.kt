@@ -23,9 +23,8 @@ class OrderManager @Inject constructor(
         return orderLocalDataSource.createOrder(tempOrder)
     }
 
-    override fun getOrderById(orderId: String): Single<Order?> {
-
-        return orderLocalDataSource.getOrderById(orderId)
+    override fun getOrderById(orderId: String): Single<Order?> =
+        orderLocalDataSource.getOrderById(orderId)
             .subscribeOn(Schedulers.io())
             .flatMap { orderEntity ->
                 Log.d("TAG", "$orderEntity")
@@ -48,13 +47,10 @@ class OrderManager @Inject constructor(
                 }
 
             }
-    }
+
 
     override fun updateOrder(order: Order): Completable {
-        Log.d("TAG", "Saved order: $order")
         return orderLocalDataSource.updateOrder(convertOrderModelToEntity(order))
     }
 
 }
-
-// combine, merge, zip

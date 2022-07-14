@@ -39,11 +39,15 @@ class DirectionFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        val orderId = DirectionFragmentArgs.fromBundle(requireArguments()).orderId
+//        val orderId = DirectionFragmentArgs.fromBundle(requireArguments()).orderId
         val terminalId = DirectionFragmentArgs.fromBundle(requireArguments()).terminalId
         val direction = DirectionFragmentArgs.fromBundle(requireArguments()).orderDirectionId
-        if (!orderId.isNullOrEmpty() && !terminalId.isNullOrEmpty()) {
+        if (
+//            !orderId.isNullOrEmpty() &&
+            !terminalId.isNullOrEmpty()) {
             viewModel.setDirection(direction, terminalId)
+        } else {
+            viewModel.getLastOrder()
         }
 
         binding.directionFrom.setOnClickListener {

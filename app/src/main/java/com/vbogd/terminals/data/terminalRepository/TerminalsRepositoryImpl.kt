@@ -43,7 +43,6 @@ class TerminalsRepositoryImpl @Inject constructor(
         for (city in terminalsDto.city) {
             for (terminal in city.terminals.terminal) {
                 terminals.add(terminal.toDomain())
-                Log.d("TAG", "Terminals: ${terminal.toDomain()}")
             }
         }
         return terminals
