@@ -1,6 +1,7 @@
 package com.vbogd.terminals.data.terminalRepository.remote.dto
 
 import com.vbogd.terminals.domain.model.Direction
+import com.vbogd.terminals.utils.DistanceCalculator
 import java.lang.Exception
 
 data class Terminal(
@@ -44,7 +45,9 @@ fun Terminal.toDomain(): com.vbogd.terminals.domain.model.Terminal {
         name = name,
         address = address,
         workHours = calcSchedule.arrival,
-        distance = 0.0,
+        distance = 0,
+        latitude = latitude.toDouble(),
+        longitude = longitude.toDouble(),
         imageAddress = try {
             maps.width.x640.height.x640.url
         } catch (e: Exception) {

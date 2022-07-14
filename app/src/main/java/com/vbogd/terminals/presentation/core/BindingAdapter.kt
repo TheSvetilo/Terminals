@@ -1,6 +1,7 @@
 package com.vbogd.terminals.presentation.core
 
 import android.net.Uri
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -74,5 +75,17 @@ fun bindImage(imageView: ImageView, terminal: Terminal) {
                     .error(R.drawable.ic_baseline_broken_image_24)
             )
             .into(imageView)
+    }
+}
+
+@BindingAdapter("distance")
+fun bindDistance(textView: TextView, terminal: Terminal) {
+    if (terminal.distance == 0) {
+        textView.visibility = View.INVISIBLE
+        textView.text = ""
+    } else {
+        textView.visibility = View.VISIBLE
+        textView.text =
+            terminal.distance.toString() + textView.context.getString(R.string.terminal_item_distance_postfix)
     }
 }

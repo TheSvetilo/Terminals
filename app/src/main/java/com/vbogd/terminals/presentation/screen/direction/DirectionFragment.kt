@@ -39,12 +39,9 @@ class DirectionFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-//        val orderId = DirectionFragmentArgs.fromBundle(requireArguments()).orderId
         val terminalId = DirectionFragmentArgs.fromBundle(requireArguments()).terminalId
         val direction = DirectionFragmentArgs.fromBundle(requireArguments()).orderDirectionId
-        if (
-//            !orderId.isNullOrEmpty() &&
-            !terminalId.isNullOrEmpty()) {
+        if (!terminalId.isNullOrEmpty()) {
             viewModel.setDirection(direction, terminalId)
         } else {
             viewModel.getLastOrder()
@@ -83,8 +80,7 @@ class DirectionFragment : Fragment() {
                     binding.root,
                     getString(R.string.menu_order_drop_data_result),
                     Snackbar.LENGTH_SHORT
-                )
-                    .show()
+                ).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)

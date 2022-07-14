@@ -5,7 +5,9 @@ data class Terminal(
     val name: String,
     val address: String,
     val workHours: String,
-    val distance: Double,
+    var distance: Int,
+    val latitude: Double,
+    val longitude: Double,
     val imageAddress: String,
     val direction: Direction
 )

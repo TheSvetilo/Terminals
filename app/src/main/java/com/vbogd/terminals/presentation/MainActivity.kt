@@ -37,12 +37,7 @@ class MainActivity : AppCompatActivity() {
             .subscribe({
                 terminalsRepository.saveAll(it)
                     .subscribeOn(Schedulers.io())
-                    .subscribe({
-//                        Log.d("TAG", "Terminals saved")
-                    }, {
-                        Log.d("TAG", "Terminals is not saved")
-                    })
-//                Log.d("TAG", "Terminals got from web")
+                    .subscribe()
             }, {
                 Log.d("TAG", "Can't get terminals from WEB")
             })
@@ -54,11 +49,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                Log.d("TAG", "Order has been created")
-            }, {
-                Log.d("TAG", "Order can't be created: ${it.message}")
-            })
+            .subscribe()
     }
 
 }

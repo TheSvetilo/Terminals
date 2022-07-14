@@ -27,7 +27,6 @@ class OrderManager @Inject constructor(
         orderLocalDataSource.getOrderById(orderId)
             .subscribeOn(Schedulers.io())
             .flatMap { orderEntity ->
-                Log.d("TAG", "$orderEntity")
                 Single.zip(
 
                     orderEntity.terminalIdFrom?.let { it1 ->

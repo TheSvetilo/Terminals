@@ -21,9 +21,11 @@ fun convertTerminalModelToEntity(terminal: Terminal): TerminalEntity {
         name = terminal.name,
         address = terminal.address,
         workHours = terminal.workHours,
-        distance = terminal.distance,
+        distance = 0.0,
         imageAddress = terminal.imageAddress,
-        direction = terminal.direction.toString()
+        direction = terminal.direction.toString(),
+        latitude = terminal.latitude,
+        longitude = terminal.longitude
     )
 }
 

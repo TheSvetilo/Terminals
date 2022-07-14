@@ -10,6 +10,8 @@ data class TerminalEntity(
     val address: String,
     val workHours: String,
     val distance: Double,
+    val latitude: Double,
+    val longitude: Double,
     val imageAddress: String,
     val direction: String
 )

@@ -1,13 +1,17 @@
 package com.vbogd.terminals.presentation.screen.terminals
 
 import android.content.Context
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.vbogd.terminals.App
@@ -28,6 +32,8 @@ class TerminalsFragment : Fragment() {
     lateinit var viewModel: TerminalsViewModel
 
     private lateinit var binding: FragmentTerminalsBinding
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var userLocation: Location? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,14 +72,23 @@ class TerminalsFragment : Fragment() {
                 1 -> Direction.TO
                 else -> Direction.BOTH
             }
-            viewModel.getTerminalsByDirection(direction)
+
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    Log.d("TAG", "Location: $location")
+                    location?.let {
+                        userLocation = location
+                    }
+                    viewModel.getTerminalsByDirection(direction, userLocation)
+                }
         }
 
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab!!.position) {
-                    0 -> viewModel.getTerminalsByDirection(Direction.FROM)
-                    1 -> viewModel.getTerminalsByDirection(Direction.TO)
+                    0 -> viewModel.getTerminalsByDirection(Direction.FROM, userLocation)
+                    1 -> viewModel.getTerminalsByDirection(Direction.TO, userLocation)
                 }
             }
 
@@ -99,9 +114,6 @@ class TerminalsFragment : Fragment() {
         }
         val searchView = menu.findItem(R.id.terminalMenuSearch).actionView as SearchView
         search(searchView)
-//        searchView.findViewById<Button>(androidx.appcompat.R.id.search_close_btn).setOnClickListener {
-//            searchView.onActionViewCollapsed()
-//        }
     }
 
     private fun search(searchView: SearchView) {
@@ -169,5 +181,6 @@ class TerminalsFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
     }
+
 
 }
