@@ -1,5 +1,8 @@
 package com.vbogd.terminals.data.terminalRepository.remote.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class Height(
-    val `640`: X640X
+    @SerializedName("640")
+    val x640: X640X
 )

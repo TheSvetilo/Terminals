@@ -23,7 +23,6 @@ class TerminalsRepositoryImpl @Inject constructor(
 ) : TerminalsRepository {
 
     override fun getTerminals(): Single<List<Terminal>> {
-
         return terminalRemoteDataSource.getTerminals()
             .subscribeOn(Schedulers.io())
             .map {
@@ -34,21 +33,6 @@ class TerminalsRepositoryImpl @Inject constructor(
     override fun getTerminalsByDirection(direction: Direction): Single<List<Terminal>> {
         return terminalRemoteDataSource.getTerminals()
             .subscribeOn(Schedulers.io())
-//            .flatMap { terminalsDto ->
-//                val terminals = fetchTerminalsFromDtoList(terminalsDto)
-//                val result = when (direction) {
-//                    Direction.FROM -> {
-//                        terminals.filter { it.direction == Direction.FROM || it.direction == Direction.BOTH }
-//                    }
-//                    Direction.TO -> {
-//                        terminals.filter { it.direction == Direction.TO || it.direction == Direction.BOTH }
-//                    }
-//                    else -> {
-//                        terminals
-//                    }
-//                }
-//                return@flatMap Single.just(result)
-//            }
             .map {
                 fetchTerminalsFromDtoList(it)
             }
@@ -59,9 +43,9 @@ class TerminalsRepositoryImpl @Inject constructor(
         for (city in terminalsDto.city) {
             for (terminal in city.terminals.terminal) {
                 terminals.add(terminal.toDomain())
+                Log.d("TAG", "Terminals: ${terminal.toDomain()}")
             }
         }
-
         return terminals
     }
 
@@ -73,7 +57,6 @@ class TerminalsRepositoryImpl @Inject constructor(
                 result = terminal
             }
         }
-        Log.d("TAG", "TerminalRepository: fetchTerminalById: $result")
         return result
 
     }

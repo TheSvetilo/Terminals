@@ -1,8 +1,12 @@
 package com.vbogd.terminals.presentation.core
 
+import android.net.Uri
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.vbogd.terminals.R
 import com.vbogd.terminals.domain.model.Order
 import com.vbogd.terminals.domain.model.Terminal
@@ -56,4 +60,19 @@ fun bindRecyclerView(recyclerView: RecyclerView, terminals: List<Terminal>?) {
 fun bindWorkHours(textView: TextView, terminal: Terminal) {
     textView.text =
         terminal.workHours.ifEmpty { textView.context.getString(R.string.terminal_item_no_workHours) }
+}
+
+@BindingAdapter("imageUrl")
+fun bindImage(imageView: ImageView, terminal: Terminal) {
+    terminal.imageAddress.let {
+        val imgUri = Uri.parse(it).buildUpon().scheme("https").build()
+        Glide.with(imageView.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.ic_outline_image_placeholder_24)
+                    .error(R.drawable.ic_baseline_broken_image_24)
+            )
+            .into(imageView)
+    }
 }

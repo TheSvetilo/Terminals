@@ -1,6 +1,7 @@
 package com.vbogd.terminals.data.terminalRepository.remote.dto
 
 import com.vbogd.terminals.domain.model.Direction
+import java.lang.Exception
 
 data class Terminal(
     val address: String,
@@ -44,7 +45,11 @@ fun Terminal.toDomain(): com.vbogd.terminals.domain.model.Terminal {
         address = address,
         workHours = calcSchedule.arrival,
         distance = 0.0,
-        imageAddress = "",
+        imageAddress = try {
+            maps.width.x640.height.x640.url
+        } catch (e: Exception) {
+            ""
+        },
         direction = direction
     )
 }

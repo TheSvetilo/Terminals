@@ -3,7 +3,6 @@ package com.vbogd.terminals.presentation.screen.terminals
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -28,7 +27,7 @@ class TerminalsFragment : Fragment() {
     lateinit var vmFactory: TerminalsViewModelFactory
     lateinit var viewModel: TerminalsViewModel
 
-    lateinit var binding: FragmentTerminalsBinding
+    private lateinit var binding: FragmentTerminalsBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
