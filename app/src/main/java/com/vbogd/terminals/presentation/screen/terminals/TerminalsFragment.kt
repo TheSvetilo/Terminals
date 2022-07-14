@@ -1,13 +1,11 @@
 package com.vbogd.terminals.presentation.screen.terminals
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.SearchView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,7 +17,8 @@ import com.vbogd.terminals.databinding.FragmentTerminalsBinding
 import com.vbogd.terminals.domain.model.Direction
 import com.vbogd.terminals.presentation.MainActivity
 import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -99,36 +98,47 @@ class TerminalsFragment : Fragment() {
                 filterIcon.setIcon(R.drawable.ic_outline_filter_list_24)
             }
         }
+        val searchView = menu.findItem(R.id.terminalMenuSearch).actionView as SearchView
+        search(searchView)
+//        searchView.findViewById<Button>(androidx.appcompat.R.id.search_close_btn).setOnClickListener {
+//            searchView.onActionViewCollapsed()
+//        }
+    }
+
+    private fun search(searchView: SearchView) {
+        Observable.create<String> {
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (!it.isDisposed) {
+                        it.onNext(newText!!)
+                    }
+                    return false
+                }
+            })
+            searchView.setOnCloseListener(SearchView.OnCloseListener {
+                viewModel.searchTerminalClear()
+                return@OnCloseListener true
+            })
+        }
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .distinctUntilChanged()
+            .map { it.trim() }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                viewModel.searchTerminal(it)
+            }, {
+
+            })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.terminalMenuSearch -> {
-//
-//                val searchView = item as SearchView
-//
-//                Observable.create(ObservableOnSubscribe<String> { subscriber ->
-//                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//                        override fun onQueryTextSubmit(newText: String?): Boolean {
-//                            subscriber.onNext(newText!!)
-//                            return false
-//                        }
-//
-//                        override fun onQueryTextChange(newText: String?): Boolean {
-//                            subscriber.onNext(newText!!)
-//                            return false
-//                        }
-//
-//                    })
-//                })
-//                    .map { text -> text.trim() }
-//                    .debounce(300, TimeUnit.MILLISECONDS)
-//                    .distinct()
-//                    .filter { text -> text.isNotBlank() }
-//                    .subscribe { text ->
-//                        Log.d("SEARCH", "subscriber: $text")
-//                    }
-
                 true
             }
             R.id.terminalMenuFilter -> {
@@ -138,6 +148,7 @@ class TerminalsFragment : Fragment() {
             else -> true
         }
     }
+
 
     private fun showFilterBottomSheet() {
         val dialog = BottomSheetDialog(requireActivity() as MainActivity)

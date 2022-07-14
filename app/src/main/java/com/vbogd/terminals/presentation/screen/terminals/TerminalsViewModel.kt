@@ -1,5 +1,6 @@
 package com.vbogd.terminals.presentation.screen.terminals
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,9 +22,7 @@ class TerminalsViewModel @Inject constructor(
     private val _terminalId = MutableLiveData<String>()
     val terminalId: LiveData<String> = _terminalId
 
-    private val _orderDirection = MutableLiveData<Int>()
-    val orderDirection: LiveData<Int> = _orderDirection
-
+    private val _terminalsListOriginal = MutableLiveData<List<Terminal>>()
     private val _terminalsList = MutableLiveData<List<Terminal>>()
     val terminalList: LiveData<List<Terminal>> = _terminalsList
 
@@ -32,6 +31,8 @@ class TerminalsViewModel @Inject constructor(
 
     private val _filter = MutableLiveData<TerminalFilter>()
     val filter: LiveData<TerminalFilter> = _filter
+
+    private val _searchString = MutableLiveData<String>()
 
     init {
         _filter.value = TerminalFilter.DEFAULT
@@ -60,18 +61,35 @@ class TerminalsViewModel @Inject constructor(
             }
             .subscribe({
                 _terminalsList.value = it
+                _terminalsListOriginal.value = it
                 _dataLoading.value = false
+                if (!_searchString.value.isNullOrEmpty()) {
+                    searchTerminal(_searchString.value.toString())
+                }
             }, {
 
             })
 
     }
 
+    fun searchTerminal(searchString: String) {
+        _searchString.value = searchString
+        _terminalsList.value = _terminalsListOriginal.value
+        _terminalsList.value =
+            _terminalsList.value?.filter { it.name.lowercase().contains(searchString) }
+    }
+
     fun applyTerminalFilter(filter: TerminalFilter) {
-
         _filter.value = filter
+        _terminalsList.value = when (filter) {
+            TerminalFilter.NAME -> _terminalsList.value?.sortedBy { it.name }
+            TerminalFilter.DISTANCE -> _terminalsList.value
+            TerminalFilter.DEFAULT -> _terminalsList.value
+        }
+    }
 
-        _terminalsList.value = _terminalsList.value?.sortedBy { it.name }
+    fun searchTerminalClear() {
+        _terminalsList.value = _terminalsListOriginal.value
     }
 
 }
