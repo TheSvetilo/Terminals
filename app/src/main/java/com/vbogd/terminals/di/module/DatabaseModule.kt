@@ -3,6 +3,7 @@ package com.vbogd.terminals.di.module
 import android.content.Context
 import androidx.room.Room
 import com.vbogd.terminals.data.AppDatabase
+import com.vbogd.terminals.utils.Constants
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -16,7 +17,7 @@ class DatabaseModule {
         return Room.databaseBuilder(
             context.applicationContext,
             AppDatabase::class.java,
-            "Orders.db"
+            Constants.ORDER_DB_NAME
         )
             .fallbackToDestructiveMigration()
             .build()

@@ -3,13 +3,13 @@ package com.vbogd.terminals.presentation.screen.terminals
 import android.content.Context
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -58,7 +58,13 @@ class TerminalsFragment : Fragment() {
                     orderId = viewModel.currentOrderId.toString(),
                     orderDirectionId = binding.tabs.selectedTabPosition,
                     terminalId = terminal.id
-                )
+                ),
+                navOptions {
+                    anim {
+                        enter = android.R.animator.fade_in
+                        exit = android.R.animator.fade_out
+                    }
+                }
             )
         })
 
@@ -76,7 +82,6 @@ class TerminalsFragment : Fragment() {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
-                    Log.d("TAG", "Location: $location")
                     location?.let {
                         userLocation = location
                     }
@@ -149,9 +154,6 @@ class TerminalsFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.terminalMenuSearch -> {
-                true
-            }
             R.id.terminalMenuFilter -> {
                 showFilterBottomSheet()
                 true
@@ -159,7 +161,6 @@ class TerminalsFragment : Fragment() {
             else -> true
         }
     }
-
 
     private fun showFilterBottomSheet() {
         val dialog = BottomSheetDialog(requireActivity() as MainActivity)

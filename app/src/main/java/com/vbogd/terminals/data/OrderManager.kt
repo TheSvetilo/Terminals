@@ -1,6 +1,5 @@
 package com.vbogd.terminals.data
 
-import android.util.Log
 import com.vbogd.terminals.data.mappers.convertOrderEntityToModel
 import com.vbogd.terminals.data.mappers.convertOrderModelToEntity
 import com.vbogd.terminals.data.orderRepository.local.OrderLocalDataSource

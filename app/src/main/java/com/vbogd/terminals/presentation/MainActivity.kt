@@ -10,6 +10,7 @@ import com.vbogd.terminals.domain.model.Order
 import com.vbogd.terminals.domain.model.Terminal
 import com.vbogd.terminals.domain.repository.OrdersRepository
 import com.vbogd.terminals.domain.repository.TerminalsRepository
+import com.vbogd.terminals.utils.Constants
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             })
         ordersRepository.createOrder(
             Order(
-                id = "55",
+                id = Constants.ORDER_SAMPLE_ID,
                 terminalFrom = null,
                 terminalTo = null
             )

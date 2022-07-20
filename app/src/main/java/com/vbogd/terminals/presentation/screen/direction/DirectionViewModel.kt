@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.vbogd.terminals.domain.model.Order
 import com.vbogd.terminals.domain.repository.OrdersRepository
 import com.vbogd.terminals.domain.repository.TerminalsRepository
+import com.vbogd.terminals.utils.Constants
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -28,7 +29,7 @@ class DirectionViewModel @Inject constructor(
 
     fun getLastOrder() {
         _dataLoading.value = true
-        orderRepository.getOrderById("55")
+        orderRepository.getOrderById(Constants.ORDER_SAMPLE_ID)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ order ->
@@ -44,7 +45,7 @@ class DirectionViewModel @Inject constructor(
 
         _dataLoading.value = true
         Single.zip(
-            orderRepository.getOrderById("55"),
+            orderRepository.getOrderById(Constants.ORDER_SAMPLE_ID),
             terminalsRepository.getTerminalById(terminalId),
         ) { order, terminal -> Pair(order, terminal) }
             .subscribeOn(Schedulers.io())

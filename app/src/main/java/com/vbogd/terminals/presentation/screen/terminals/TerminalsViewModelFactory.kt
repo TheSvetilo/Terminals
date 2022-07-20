@@ -3,7 +3,6 @@ package com.vbogd.terminals.presentation.screen.terminals
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.vbogd.terminals.domain.repository.TerminalsRepository
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class TerminalsViewModelFactory @Inject constructor(

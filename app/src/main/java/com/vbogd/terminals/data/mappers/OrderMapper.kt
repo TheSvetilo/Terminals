@@ -6,7 +6,7 @@ import com.vbogd.terminals.domain.model.Terminal
 
 fun convertOrderModelToEntity(
     order: Order
-): OrderEntity = OrderEntity(
+) = OrderEntity(
     id = order.id,
     terminalIdFrom = order.terminalFrom?.id.toString(),
     terminalIdTo = order.terminalTo?.id.toString()

@@ -3,6 +3,7 @@ package com.vbogd.terminals.di.module
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.vbogd.terminals.data.terminalRepository.remote.TerminalApi
+import com.vbogd.terminals.utils.Constants
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -13,14 +14,10 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    companion object {
-        const val BASE_URL = "https://api.dellin.ru/"
-    }
-
     @Provides
     @Singleton
     fun provideRetrofit(gson: Gson): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(Constants.TERMINALS_API_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
