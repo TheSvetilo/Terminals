@@ -12,7 +12,7 @@ import com.vbogd.terminals.data.terminalRepository.local.entity.TerminalEntity
         OrderEntity::class,
         TerminalEntity::class
     ],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

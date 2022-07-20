@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vbogd.terminals.domain.model.Order
+import com.vbogd.terminals.domain.model.OrderStatus
 import com.vbogd.terminals.domain.repository.OrdersRepository
 import com.vbogd.terminals.domain.repository.TerminalsRepository
 import com.vbogd.terminals.utils.Constants
@@ -59,14 +60,14 @@ class DirectionViewModel @Inject constructor(
                         _currentOrder.value?.copy(terminalTo = it.second.get())
                 }
                 _dataLoading.value = false
-                saveOrder()
+                updateOrder()
                 updateButtonState()
             }, {
                 Log.d("TAG", "Error: ${it.message}")
             })
     }
 
-    fun saveOrder() {
+    private fun updateOrder() {
         _currentOrder.value?.let {
             orderRepository.updateOrder(it)
                 .subscribeOn(Schedulers.io())
@@ -74,10 +75,19 @@ class DirectionViewModel @Inject constructor(
         }
     }
 
+    fun saveOrder() {
+        _currentOrder.value = _currentOrder.value?.copy(status = OrderStatus.READY_TO_GO)
+        updateOrder()
+    }
+
     fun clearOrderData() {
         _currentOrder.value =
-            _currentOrder.value?.copy(terminalFrom = null, terminalTo = null)
-        saveOrder()
+            _currentOrder.value?.copy(
+                terminalFrom = null,
+                terminalTo = null,
+                status = OrderStatus.DRAFT
+            )
+        updateOrder()
         updateButtonState()
     }
 

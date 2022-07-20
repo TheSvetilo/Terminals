@@ -19,6 +19,7 @@ import com.vbogd.terminals.R
 import com.vbogd.terminals.databinding.FragmentTerminalsBinding
 import com.vbogd.terminals.domain.model.Direction
 import com.vbogd.terminals.presentation.MainActivity
+import com.vbogd.terminals.utils.OnTabItemSelectedListener
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -32,6 +33,7 @@ class TerminalsFragment : Fragment() {
     lateinit var viewModel: TerminalsViewModel
 
     private lateinit var binding: FragmentTerminalsBinding
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var userLocation: Location? = null
 
@@ -58,26 +60,16 @@ class TerminalsFragment : Fragment() {
                     orderId = viewModel.currentOrderId.toString(),
                     orderDirectionId = binding.tabs.selectedTabPosition,
                     terminalId = terminal.id
-                ),
-                navOptions {
-                    anim {
-                        enter = android.R.animator.fade_in
-                        exit = android.R.animator.fade_out
-                    }
-                }
+                )
             )
         })
 
         val currentOrderId = TerminalsFragmentArgs.fromBundle(requireArguments()).orderId
         val orderDirectionTab =
             TerminalsFragmentArgs.fromBundle(requireArguments()).orderDirectionId
+
         if (currentOrderId.isNotEmpty()) {
             binding.tabs.getTabAt(orderDirectionTab)!!.select()
-            val direction = when (orderDirectionTab) {
-                0 -> Direction.FROM
-                1 -> Direction.TO
-                else -> Direction.BOTH
-            }
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
             fusedLocationClient.lastLocation
@@ -85,22 +77,14 @@ class TerminalsFragment : Fragment() {
                     location?.let {
                         userLocation = location
                     }
-                    viewModel.getTerminalsByDirection(direction, userLocation)
+                    viewModel.getTerminalsByDirection(orderDirectionTab, userLocation)
                 }
         }
 
-        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabs.addOnTabSelectedListener(object : OnTabItemSelectedListener() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab!!.position) {
-                    0 -> viewModel.getTerminalsByDirection(Direction.FROM, userLocation)
-                    1 -> viewModel.getTerminalsByDirection(Direction.TO, userLocation)
-                }
+                viewModel.getTerminalsByDirection(tab!!.position, userLocation)
             }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-
         })
 
         setHasOptionsMenu(true)

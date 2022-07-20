@@ -46,7 +46,6 @@ class OrderManager @Inject constructor(
 
             }
 
-
     override fun updateOrder(order: Order): Completable {
         return orderLocalDataSource.updateOrder(convertOrderModelToEntity(order))
     }

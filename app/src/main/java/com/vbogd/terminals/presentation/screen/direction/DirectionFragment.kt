@@ -3,11 +3,9 @@ package com.vbogd.terminals.presentation.screen.direction
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import com.google.android.material.snackbar.Snackbar
 import com.vbogd.terminals.App
 import com.vbogd.terminals.R
@@ -20,7 +18,7 @@ class DirectionFragment : Fragment() {
     lateinit var vmFactory: DirectionViewModelFactory
     lateinit var viewModel: DirectionViewModel
 
-    lateinit var binding: FragmentDirectionBinding
+    private lateinit var binding: FragmentDirectionBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,13 +51,7 @@ class DirectionFragment : Fragment() {
                 DirectionFragmentDirections.showTerminals(
                     orderId = viewModel.currentOrder.value!!.id,
                     orderDirectionId = 0
-                ),
-                navOptions {
-                    anim {
-                        enter = android.R.animator.fade_in
-                        exit = android.R.animator.fade_out
-                    }
-                }
+                )
             )
         }
 
@@ -71,6 +63,7 @@ class DirectionFragment : Fragment() {
                 )
             )
         }
+
         setHasOptionsMenu(true)
         return binding.root
     }

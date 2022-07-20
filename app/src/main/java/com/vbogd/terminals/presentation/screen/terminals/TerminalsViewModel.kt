@@ -41,25 +41,19 @@ class TerminalsViewModel @Inject constructor(
         _userLocation.value = mutableListOf(0.0, 0.0)
     }
 
-    fun getTerminalsByDirection(direction: Direction, location: Location?) {
+    fun getTerminalsByDirection(direction: Int, location: Location?) {
 
         _dataLoading.value = true
         _filter.value = TerminalFilter.DEFAULT
 
-        terminalsRepository.getTerminalsByDirection(direction)
+        terminalsRepository.getTerminals()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map { terminalList ->
                 when (direction) {
-                    Direction.FROM -> {
-                        terminalList.filter { it.direction == Direction.FROM || it.direction == Direction.BOTH }
-                    }
-                    Direction.TO -> {
-                        terminalList.filter { it.direction == Direction.TO || it.direction == Direction.BOTH }
-                    }
-                    else -> {
-                        terminalList
-                    }
+                    0 -> terminalList.filter { it.direction == Direction.FROM || it.direction == Direction.BOTH }
+                    1 -> terminalList.filter { it.direction == Direction.TO || it.direction == Direction.BOTH }
+                    else -> terminalList
                 }
             }
             .subscribe({
@@ -77,7 +71,6 @@ class TerminalsViewModel @Inject constructor(
             }, {
 
             })
-
     }
 
     fun searchTerminal(searchString: String) {

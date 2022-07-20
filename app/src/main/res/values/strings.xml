@@ -1,11 +1,21 @@
 <resources>
     <string name="app_name">Terminals</string>
 
+    <string name="direction_order_title">Заказ №</string>
+    <string name="direction_order_title_not_found">Заказ не найден</string>
     <string name="direction_button_save">Сохранить</string>
     <string name="direction_from_title">Откуда:</string>
     <string name="direction_to_title">Куда:</string>
     <string name="direction_no_name">терминал не выбран.</string>
     <string name="direction_no_address">Нажмите, чтобы выбрать терминал из списка доступных.</string>
+
+    <string-array name="orderStatus">
+        <item>черновик</item>
+        <item>обработка</item>
+        <item>перевозка</item>
+        <item>закрыто</item>
+        <item>неизвестно</item>
+    </string-array>
 
     <string name="terminal_from_title">Откуда</string>
     <string name="terminal_to_title">Куда</string>

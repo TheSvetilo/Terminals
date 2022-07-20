@@ -29,6 +29,18 @@
             android:orientation="vertical"
             android:visibility="@{ viewModel.dataLoading ? View.GONE : View.VISIBLE }">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginHorizontal="36dp"
+                android:layout_marginVertical="24dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:order="@{ viewModel.currentOrder }"
+                tools:text="Заказ №543634262" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/directionFrom"
                 android:layout_width="match_parent"

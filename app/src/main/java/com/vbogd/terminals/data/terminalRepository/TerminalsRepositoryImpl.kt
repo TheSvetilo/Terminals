@@ -1,13 +1,11 @@
 package com.vbogd.terminals.data.terminalRepository
 
-import android.util.Log
 import com.vbogd.terminals.data.mappers.convertTerminalModelToEntity
 import com.vbogd.terminals.data.terminalRepository.local.TerminalLocalDataSource
 import com.vbogd.terminals.data.terminalRepository.local.entity.TerminalEntity
 import com.vbogd.terminals.data.terminalRepository.remote.TerminalRemoteDataSource
 import com.vbogd.terminals.data.terminalRepository.remote.dto.TerminalsDto
 import com.vbogd.terminals.data.terminalRepository.remote.dto.toDomain
-import com.vbogd.terminals.domain.model.Direction
 import com.vbogd.terminals.domain.model.Terminal
 import com.vbogd.terminals.domain.repository.TerminalsRepository
 import io.reactivex.Completable
@@ -23,14 +21,6 @@ class TerminalsRepositoryImpl @Inject constructor(
 ) : TerminalsRepository {
 
     override fun getTerminals(): Single<List<Terminal>> {
-        return terminalRemoteDataSource.getTerminals()
-            .subscribeOn(Schedulers.io())
-            .map {
-                fetchTerminalsFromDtoList(it)
-            }
-    }
-
-    override fun getTerminalsByDirection(direction: Direction): Single<List<Terminal>> {
         return terminalRemoteDataSource.getTerminals()
             .subscribeOn(Schedulers.io())
             .map {

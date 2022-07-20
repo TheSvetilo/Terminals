@@ -5,9 +5,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.vbogd.terminals.App
 import com.vbogd.terminals.R
-import com.vbogd.terminals.domain.model.Direction
 import com.vbogd.terminals.domain.model.Order
-import com.vbogd.terminals.domain.model.Terminal
+import com.vbogd.terminals.domain.model.OrderStatus
 import com.vbogd.terminals.domain.repository.OrdersRepository
 import com.vbogd.terminals.domain.repository.TerminalsRepository
 import com.vbogd.terminals.utils.Constants
@@ -42,15 +41,23 @@ class MainActivity : AppCompatActivity() {
             }, {
                 Log.d("TAG", "Can't get terminals from WEB")
             })
-        ordersRepository.createOrder(
-            Order(
-                id = Constants.ORDER_SAMPLE_ID,
-                terminalFrom = null,
-                terminalTo = null
-            )
-        )
+
+        ordersRepository.getOrderById(Constants.ORDER_SAMPLE_ID)
             .subscribeOn(Schedulers.io())
-            .subscribe()
+            .subscribe({}, {
+                ordersRepository.createOrder(
+                    Order(
+                        id = Constants.ORDER_SAMPLE_ID,
+                        terminalFrom = null,
+                        terminalTo = null,
+                        status = OrderStatus.DRAFT
+                    )
+                )
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
+            })
+
+
     }
 
 }
